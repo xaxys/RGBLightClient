@@ -19,6 +19,7 @@ public:
 
 private:
 	void sysTrayActivated(QSystemTrayIcon::ActivationReason reason);
+	void showMainWindow();
 	void createMainWindow();
 	void createSysTrayIcon();
 

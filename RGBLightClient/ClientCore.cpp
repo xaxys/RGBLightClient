@@ -1,3 +1,5 @@
+#include <QMenu>
+#include <QAction>
 #include "ClientCore.h"
 
 ClientCore::ClientCore(QObject *parent) : QObject(parent) {
@@ -13,22 +15,23 @@ void ClientCore::sysTrayActivated(QSystemTrayIcon::ActivationReason reason) {
     switch (reason) {
     case QSystemTrayIcon::Trigger:
         //µ¥»÷ÍÐÅÌÍ¼±ê
-        if (mainWindow != nullptr) {
-            mainWindow->showNormal();
-        } else {
-            createMainWindow();
-        }
+        showMainWindow();
         break;
     case QSystemTrayIcon::DoubleClick:
         //Ë«»÷ÍÐÅÌÍ¼±ê
-        if (mainWindow != nullptr) {
-            mainWindow->showNormal();
-        } else {
-            createMainWindow();
-        }
+        showMainWindow();
         break;
     default:
         break;
+    }
+}
+
+void ClientCore::showMainWindow() {
+    if (mainWindow != nullptr) {
+        mainWindow->showNormal();
+    }
+    else {
+        createMainWindow();
     }
 }
 
@@ -45,4 +48,14 @@ void ClientCore::createSysTrayIcon() {
     sysTrayIcon->setToolTip(QStringLiteral(APP_TITLE));
     sysTrayIcon->show();
     connect(sysTrayIcon, &QSystemTrayIcon::activated, this, &ClientCore::sysTrayActivated);
+
+    auto menu = new QMenu;
+    auto showWindow = new QAction(QStringLiteral("ÏÔÊ¾³ÌÐò"), this);
+    auto exitAppAction = new QAction(QStringLiteral("ÍË³ö³ÌÐò"), this);
+    connect(showWindow, &QAction::triggered, this, &ClientCore::showMainWindow);
+    connect(exitAppAction, &QAction::triggered, this, []() { exit(0); });
+    menu->addAction(showWindow);
+    menu->addAction(exitAppAction);
+    menu->setStyleSheet("QMenu{color:black;border-bottom:1px solid #ccc;}");
+    sysTrayIcon->setContextMenu(menu);
 }

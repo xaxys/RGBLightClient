@@ -47,13 +47,12 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// String Table
+// Icon
 //
 
-STRINGTABLE
-BEGIN
-    APP_NAME                "RGBLightClient"
-END
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "RGBLightClient_256.ico"
 
 #endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////

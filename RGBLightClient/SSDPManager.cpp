@@ -70,11 +70,11 @@ ST: upnp:rootdevice\r\n"
 void SSDPManager::parseDatagram(const QNetworkDatagram& dgram) {
     QRegExp rx("LOCATION: (.*\\.xml)");
     QHostAddress address = dgram.senderAddress();
+    if (lights.contains(address)) return;
     if (rx.indexIn(dgram.data().data()) != -1) {
         QUrl url = rx.capturedTexts()[1];
         manager.get(QNetworkRequest(url));
         connect(&manager, &QNetworkAccessManager::finished, this, [this, address](QNetworkReply* reply) {
-            if (lights.contains(address)) return;
             QXmlStreamReader xml(reply->readAll());
             RGBLightConfig config = RGBLightConfig::fromXml(xml);
             if (xml.hasError()) {

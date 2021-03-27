@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/RGBLightClient">
+        <file alias="SystrayIcon">RGBLightClient_128.ico</file>
+    </qresource>
+</RCC>

@@ -25,7 +25,6 @@ void RGBLightClient::onSSDPUpdated(const QList<RGBLightController*>& lights) {
     ui.listWidget->clear();
     for (const auto& light : lights) {
         auto item = new QListWidgetItem(ui.listWidget);
-        item->setFlags(Qt::ItemFlag::ItemIsSelectable | Qt::ItemFlag::ItemIsEnabled);
         item->setText(light->getName());
         item->setToolTip(light->getAddress().toString());
         item->setData(1, QVariant::fromValue(light));

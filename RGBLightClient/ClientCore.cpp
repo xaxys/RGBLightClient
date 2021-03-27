@@ -1,5 +1,6 @@
 #include <QMenu>
 #include <QAction>
+#include <Windows.h>
 #include "ClientCore.h"
 
 ClientCore::ClientCore(QObject *parent) : QObject(parent) {
@@ -29,6 +30,7 @@ void ClientCore::sysTrayActivated(QSystemTrayIcon::ActivationReason reason) {
 void ClientCore::showMainWindow() {
     if (mainWindow != nullptr) {
         mainWindow->showNormal();
+        SetWindowPos(HWND(mainWindow->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
     }
     else {
         createMainWindow();
@@ -39,7 +41,7 @@ void ClientCore::createMainWindow() {
     mainWindow = new RGBLightClient(ssdpManager);
     mainWindow->show();
     mainWindow->setAttribute(Qt::WA_DeleteOnClose);
-    connect(mainWindow, &RGBLightClient::destroyed, this, [this]() {mainWindow = nullptr; });
+    connect(mainWindow, &RGBLightClient::destroyed, this, [this]() { mainWindow = nullptr; });
 }
 
 void ClientCore::createSysTrayIcon() {

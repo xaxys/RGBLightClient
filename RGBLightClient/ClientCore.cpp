@@ -30,7 +30,7 @@ void ClientCore::sysTrayActivated(QSystemTrayIcon::ActivationReason reason) {
 void ClientCore::showMainWindow() {
     if (mainWindow != nullptr) {
         mainWindow->showNormal();
-        SetWindowPos(HWND(mainWindow->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+        mainWindow->activateWindow();
     }
     else {
         createMainWindow();

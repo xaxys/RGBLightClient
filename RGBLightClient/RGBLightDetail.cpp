@@ -166,7 +166,7 @@ void RGBLightDetail::setTemperature(int temperature) {
 	if (this->temperature == temperature) return;
 	this->temperature = temperature;
 	ui.horizontalSlider_temperature->setValue(temperature);
-	ui.label_temprature->setText(QString::number(temperature));
+	ui.label_temprature->setText(QString("%1K").arg(temperature));
 	emit commandExec(QString("temperature %1").arg(temperature));
 }
 
@@ -183,9 +183,24 @@ bool RGBLightDetail::setTemperature(const QString& str) {
 
 void RGBLightDetail::setRGBMode(RGBMode mode) {
 	if (this->mode == mode) return;
+	setButtonDisabled(this->mode, false);
+	setButtonDisabled(mode, true);
 	this->mode = mode;
 	auto metaEnum = QMetaEnum::fromType<RGBLightDetail::RGBMode>();
 	emit commandExec(QString("mode %1").arg(QString(metaEnum.valueToKey(mode)).toLower()));
+}
+
+void RGBLightDetail::setButtonDisabled(RGBMode mode, bool disabled) {
+	switch (mode) {
+	case RGBMode::CONSTANT: ui.pushButton_constant->setDisabled(disabled); break;
+	case RGBMode::BLINK: ui.pushButton_blink->setDisabled(disabled); break;
+	case RGBMode::BREATH: ui.pushButton_breath->setDisabled(disabled); break;
+	case RGBMode::CHASE: ui.pushButton_chase->setDisabled(disabled); break;
+	case RGBMode::RAINBOW: ui.pushButton_rainbow->setDisabled(disabled); break;
+	case RGBMode::STREAM: ui.pushButton_stream->setDisabled(disabled); break;
+	case RGBMode::ANIMATION: ui.pushButton_animation->setDisabled(disabled); break;
+	case RGBMode::CUSTOM: ui.pushButton_custom->setDisabled(disabled); break;
+	}
 }
 
 void RGBLightDetail::syncFromLight() {

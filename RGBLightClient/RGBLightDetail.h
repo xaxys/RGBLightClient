@@ -10,6 +10,7 @@ class RGBLightDetail : public QWidget {
 
 public:
 	enum RGBMode {
+		ILLEGAL = -1,
 		CONSTANT,
 		BLINK,
 		BREATH,
@@ -25,7 +26,7 @@ private:
 	Q_ENUM(RGBMode)
 	Ui::RGBLightDetail ui;
 	const RGBLightConfig config;
-	RGBMode mode = RGBMode::CONSTANT;
+	RGBMode mode = RGBMode::ILLEGAL;
 	QColor color = QColor(255, 255, 255);
 	int brightness = 255;
 	int temperature = 6500;
@@ -64,6 +65,7 @@ public:
 	void setTemperature(int temperature);
 	bool setTemperature(const QString& str);
 	void setRGBMode(RGBMode mode);
+	void setButtonDisabled(RGBMode mode, bool disabled);
 	void syncFromLight();
 
 };

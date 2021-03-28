@@ -2,16 +2,6 @@
 #include <Windows.h>
 #include "RGBLightDetail.h"
 
-/**
-static const auto HTML_TEMPLATE = QStringLiteral(R"[===](
-<h3> 设备名: %1 </h3>
-<h3> 制造商: %2 </h3> <a href="%3">%3</a>
-<h3> 型号: %4 [%5] </h3> <a href="%6">%6</a>
-<h3> 设备网页: <a href="%7">%7</a> </h3>
-<h3> 序列号: %8 </h3>
-<h3> 唯一标识符: %9 </h3>
-)[===]");
-**/
 static const auto HTML_TEMPLATE = QStringLiteral(R"[===](
 <p>
 设备名: %1 <br/>
@@ -116,6 +106,8 @@ void RGBLightDetail::onReceiveMessage(QString msg) {
 		setTemperature(list[1].toString());
 	} else if (list[0] == "brightness") {
 		setBrightness(list[1].toString());
+	} else if (list[0] == "mode") {
+		setRGBMode((RGBMode)list[1].toUInt());
 	}
 }
 
@@ -200,6 +192,7 @@ void RGBLightDetail::syncFromLight() {
 	emit commandExec("color");
 	emit commandExec("brightness");
 	emit commandExec("temperature");
+	emit commandExec("mode");
 }
 
 void RGBLightDetail::onPickColorButtonClicked() {

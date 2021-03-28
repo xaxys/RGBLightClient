@@ -51,6 +51,10 @@ void SSDPManager::refreshSockets() {
 }
 
 void SSDPManager::sendUpdate() {
+    for (auto& light : lights) {
+        qDebug() << light->getName() << light->getAddress() << "\n";
+    }
+    qDebug() << "-------------" << "\n";
     emit updated(lights.values());
 }
 
@@ -79,7 +83,7 @@ void SSDPManager::parseDatagram(const QNetworkDatagram& dgram) {
             RGBLightConfig config = RGBLightConfig::fromXml(xml);
             if (xml.hasError()) {
                 qDebug() << "Error >> " << xml.errorString();
-            } else {
+            } else if (!lights.contains(address)) {
                 addLight(address, config);
             }
             reply->deleteLater();
